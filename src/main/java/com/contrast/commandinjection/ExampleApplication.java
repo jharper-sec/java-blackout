@@ -1,5 +1,6 @@
 package com.contrast.commandinjection;
 
+import io.github.pixee.security.SystemCommand;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,7 +37,7 @@ public class ExampleApplication {
 	@GetMapping("/exec")
 	public String exec(@RequestParam String command) throws IOException {
 		try {
-			Process process = Runtime.getRuntime().exec(command);
+			Process process = SystemCommand.runCommand(Runtime.getRuntime(), command);
 			String result = new String(process.getInputStream().readAllBytes());
 			return String.format("%s", result);
 		} catch (Exception ex) {
